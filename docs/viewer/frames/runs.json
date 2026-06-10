@@ -1,0 +1,16 @@
+[
+  {
+    "label": "04-13 / run_1 / Clean",
+    "dir": "04-13_run_1_Clean",
+    "event": "04-13",
+    "run": "run_1",
+    "category": "Clean"
+  },
+  {
+    "label": "03-30 / run_1 / Clean",
+    "dir": "03-30_run_1_Clean",
+    "event": "03-30",
+    "run": "run_1",
+    "category": "Clean"
+  }
+]

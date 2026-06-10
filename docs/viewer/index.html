@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uncertainty Fusion Dataset Viewer</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #121212;
+    color: #e0e0e0;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 12px;
+    gap: 14px;
+  }
+
+  h1 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #f0f0f0;
+  }
+
+  #info-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .badge {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 12px;
+    color: #aaa;
+  }
+  .badge span { color: #e0e0e0; font-weight: 500; }
+
+  #run-select {
+    background: #1e1e1e;
+    border: 1px solid #444;
+    border-radius: 6px;
+    color: #e0e0e0;
+    font-size: 13px;
+    padding: 4px 10px;
+    cursor: pointer;
+    outline: none;
+  }
+  #run-select:focus { border-color: #f87027; }
+
+  #composite-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 1440px;
+    background: #141414;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #2a2a2a;
+  }
+  #composite-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 80px;
+    transition: opacity 0.1s ease;
+  }
+  #composite-img.loading { opacity: 0.4; }
+
+  #panel-labels {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .panel-label {
+    position: absolute;
+    bottom: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.55);
+    color: #ccc;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  #controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 1440px;
+  }
+
+  .toggle-group {
+    display: flex;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .toggle-btn {
+    padding: 5px 16px;
+    border: none;
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+  }
+  .toggle-btn.active { background: #f87027; color: #fff; }
+  .toggle-btn:hover:not(.active):not(:disabled) { background: #2a2a2a; color: #ddd; }
+  .toggle-btn:disabled { opacity: 0.35; cursor: default; }
+
+  .legend {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 12px;
+    color: #999;
+  }
+  .dot {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  #slider-wrap {
+    width: 100%;
+    max-width: 1440px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  #frame-label {
+    white-space: nowrap;
+    font-size: 13px;
+    color: #888;
+    min-width: 80px;
+    text-align: right;
+  }
+  #slider { flex: 1; accent-color: #f87027; cursor: pointer; }
+  #key-hint { font-size: 11px; color: #555; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<h1>Uncertainty Fusion — Dataset Viewer</h1>
+
+<div id="info-bar">
+  <select id="run-select"></select>
+  <div class="badge">Event <span id="b-event">–</span></div>
+  <div class="badge">Run <span id="b-run">–</span></div>
+  <div class="badge">Category <span id="b-category">–</span></div>
+</div>
+
+<div id="composite-wrap">
+  <img id="composite-img" src="" alt="frame" draggable="false">
+  <div id="panel-labels">
+    <span class="panel-label" id="label-aerial" style="left:8px">Aerial</span>
+    <span class="panel-label" id="label-ground" style="right:8px">Ground</span>
+  </div>
+</div>
+
+<div id="controls">
+  <div class="toggle-group">
+    <button class="toggle-btn active" id="btn-rgb" onclick="setModality('rgb')">RGB</button>
+    <button class="toggle-btn"        id="btn-gt"  onclick="setModality('gt')">GT BBox</button>
+  </div>
+  <div class="legend">
+    <span class="dot" style="background:#f87027"></span> Aerial GPS
+    <span class="dot" style="background:#f6b60c"></span> Ground GPS
+  </div>
+</div>
+
+<div id="slider-wrap">
+  <span id="frame-label">Frame 0 / 0</span>
+  <input type="range" id="slider" min="0" max="0" value="0">
+  <span id="key-hint">← → keys</span>
+</div>
+
+<script>
+  let meta       = null;
+  let frame      = 0;
+  let modality   = 'rgb';
+  let currentDir = null;
+
+  const compositeImg = document.getElementById('composite-img');
+  const slider       = document.getElementById('slider');
+  const frameLabel   = document.getElementById('frame-label');
+  const runSelect    = document.getElementById('run-select');
+
+  const _preloaded = new Set();
+  function preload(src) {
+    if (_preloaded.has(src)) return;
+    _preloaded.add(src);
+    new Image().src = src;
+  }
+
+  function frameSrc(mod, idx) {
+    return `frames/${currentDir}/${mod}_${String(idx).padStart(4, '0')}.webp`;
+  }
+
+  function maxFrames() {
+    if (!meta) return 0;
+    return modality === 'gt' ? meta.n_gt_frames : meta.n_frames;
+  }
+
+  function render() {
+    const n   = maxFrames();
+    const idx = Math.max(0, Math.min(frame, n - 1));
+    frameLabel.textContent = `Frame ${idx + 1} / ${n}`;
+
+    compositeImg.classList.add('loading');
+    const tmp = new Image();
+    tmp.onload = () => { compositeImg.src = tmp.src; compositeImg.classList.remove('loading'); };
+    tmp.src = frameSrc(modality, idx);
+
+    for (let d = 1; d <= 3; d++) {
+      if (idx + d < n) preload(frameSrc(modality, idx + d));
+      if (idx - d >= 0) preload(frameSrc(modality, idx - d));
+    }
+  }
+
+  function setModality(mod) {
+    modality = mod;
+    document.getElementById('btn-rgb').classList.toggle('active', mod === 'rgb');
+    document.getElementById('btn-gt').classList.toggle('active',  mod === 'gt');
+    frame = Math.min(frame, maxFrames() - 1);
+    slider.max   = maxFrames() - 1;
+    slider.value = frame;
+    render();
+  }
+
+  function loadRun(dir) {
+    currentDir = dir;
+    frame      = 0;
+    modality   = 'rgb';
+    document.getElementById('btn-rgb').classList.add('active');
+    document.getElementById('btn-gt').classList.remove('active');
+
+    fetch(`frames/${dir}/metadata.json`)
+      .then(r => r.json())
+      .then(m => {
+        meta = m;
+        document.getElementById('b-event').textContent    = m.event;
+        document.getElementById('b-run').textContent      = m.run;
+        document.getElementById('b-category').textContent = m.category;
+
+        const gtBtn = document.getElementById('btn-gt');
+        gtBtn.disabled = m.n_gt_frames === 0;
+
+        slider.max   = m.n_frames - 1;
+        slider.value = 0;
+        render();
+      });
+  }
+
+  slider.addEventListener('input', () => { frame = +slider.value; render(); });
+
+  runSelect.addEventListener('change', () => loadRun(runSelect.value));
+
+  document.addEventListener('keydown', e => {
+    const n = maxFrames();
+    if (e.key === 'ArrowRight' && frame < n - 1) { frame++; slider.value = frame; render(); }
+    if (e.key === 'ArrowLeft'  && frame > 0)      { frame--; slider.value = frame; render(); }
+  });
+
+  fetch('frames/runs.json')
+    .then(r => r.json())
+    .then(runs => {
+      runs.forEach(r => {
+        const opt = document.createElement('option');
+        opt.value       = r.dir;
+        opt.textContent = r.label;
+        runSelect.appendChild(opt);
+      });
+      if (runs.length > 0) loadRun(runs[0].dir);
+    })
+    .catch(() => {
+      compositeImg.alt = 'Could not load frames/runs.json — run export_static_viewer.py first.';
+    });
+</script>
+</body>
+</html>

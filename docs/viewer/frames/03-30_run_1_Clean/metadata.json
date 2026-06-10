@@ -1,0 +1,10 @@
+{
+  "event": "03-30",
+  "run": "run_1",
+  "category": "Clean",
+  "n_frames": 77,
+  "n_gt_frames": 77,
+  "has_gps": false,
+  "composite_height": 400,
+  "aerial_split_px": 711
+}
