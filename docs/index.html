@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+    content="Co-GLANCE: Uncertainty-Aware Active Perception for Heterogeneous Robot Teaming">
+  <meta name="keywords" content="Co-GLANCE, Active Perception, Heterogeneous Robot Teaming">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Co-GLANCE: Uncertainty-Aware Active Perception for Heterogeneous Robot Teaming</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.gif" type="image/gif">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+  <div class="robot-accent drone-accent" aria-hidden="true"></div>
+  <div class="robot-accent spot-accent" aria-hidden="true"></div>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              <span class="framework-name animated-title" aria-label="Co-GLANCE">C<span class="title-eye"
+                  aria-hidden="true"><span class="title-pupil"></span></span>-GLANCE</span>:
+            </h1>
+            <h2 class="title publication-title">Uncertainty-Aware Active Perception<br>
+              for Heterogeneous Robot Teaming
+            </h2>
+            <div class="is-size-5 publication-author">
+              <!-- <span class="author-block">
+                <a href=""></a><sup>*1</sup>,
+              </span>
+              </span> -->
+            </div>
+
+            <!-- <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup></span>
+              <span class="author-block"><sup>*</sup>Equal Contribution</span>
+            </div> -->
+
+            <!-- <div class="is-size-5 publication-authors">
+              <p style="color: red;">Spotlight</p>
+            </div> -->
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+
+                <!-- <span class="link-block">
+                  <a target="_blank" rel="noopener noreferrer" href=""
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span> -->
+
+                <span class="link-block">
+                  <a target="_blank" rel="noopener noreferrer" href="https://github.com/co-glance/co-glance.github.io"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a target="_blank" rel="noopener noreferrer"
+                    href="https://huggingface.co/datasets/co-glance/Co-GLANCE/blob/main/dataset_viewer.ipynb"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-book-open"></i>
+                    </span>
+                    <span>Demo Notebook</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a target="_blank" rel="noopener noreferrer"
+                    href="https://huggingface.co/datasets/co-glance/Co-GLANCE"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-database"></i>
+                    </span>
+                    <span>Dataset</span>
+                  </a>
+                </span>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <video id="teaser" autoplay muted loop playsinline controls preload="auto" height="100%">
+          <source src="./static/videos/Co-GLANCE.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero is-light">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3"><br>Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+            Perceptual uncertainty is a central challenge for heterogeneous robot teams op-
+            erating in unstructured outdoor environments, where no single viewpoint affords
+            reliable scene understanding. Perceptual uncertainty, arising from sources such
+            as occlusions, manifests differently across robot viewpoints depending on scene
+            structure. Detecting and resolving sources of perceptual uncertainty requires both
+            scene-based contextual reasoning and capability-aware robot allocation. While
+            vision-language models provide strong semantic priors for both, they are com-
+            putationally prohibitive for onboard inference and lack calibrated uncertainty
+            quantification. 
+            </p>
+            <p>
+            We introduce <span class="framework-name">Co-GLANCE</span>, a real-time onboard perception and
+            decision-making system for uncertainty resolution in heterogeneous robot teams.
+            <span class="framework-name">Co-GLANCE</span> distills the semantic reasoning capabilities of a vision-language model
+            into an end-to-end model for occlusion segmentation and robot allocation, elim-
+            inating the need for cloud-based inference. To quantify perceptual uncertainty,
+            <span class="framework-name">Co-GLANCE</span> combines conformal prediction with selective abstention to provide
+            statistically valid coverage guarantees for segmentation, robot allocation, and de-
+            tection outputs. These calibrated uncertainty estimates directly trigger active per-
+            ception, dispatching the most appropriate robot to acquire informative viewpoints
+            and resolve uncertainty. 
+            </p>
+            <p>
+            Across real-world scenarios, <span class="framework-name">Co-GLANCE</span> outperforms
+            cloud-based vision-language model baselines in occlusion segmentation and robot
+            allocation accuracy by 25% and 36%, respectively, while reducing per-frame in-
+            ference latency 350×. We also release an air-ground dataset for future research.
+            Code, videos, and dataset available at: co-glance.github.io.
+            </p>
+          </div>
+          <div class="content has-text-centered">
+            <img class="paper-figure" src="./static/images/air_ground_setting.png"
+              alt="Air-ground robot teaming setting">
+            <p class="figure-caption">
+              An aerial robot and ground robot coordinate through communication for active perception.
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--/ Abstract. -->
+
+      <!-- Paper video. -->
+      <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+      <!--/ Paper video. -->
+    </div>
+  </section>
+
+  <section class="hero is-light">
+    <div class="container is-max-desktop">
+      <!-- Concurrent Work. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3"><br>Framework Overview</h2>
+          <div class="content has-text-justified">
+            <img src="./static/images/flowchart_v41.png">
+
+            <p><b>System overview:</b> (1) perceptual uncertainty detection, (2) occlusion uncertainty, 
+              (3) resolution of high-uncertainty areas, (4) object detection, 
+              (5) detection uncertainty, and (6) uncertainty-driven active perception.</p>
+            <br>
+          </div>
+        </div>
+      </div>
+      <!--/ Concurrent Work. -->
+
+    </div>
+  </section>
+
+  <section class="hero is-light">
+    <div class="container is-max-desktop">
+      <!-- Concurrent Work. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3"><br>VLM Distillation</h2>
+          <div class="content has-text-justified">
+            <img src="./static/images/Co-GLANCE-latest-vlm_distillation_v3.png">
+
+            <p><b>Perceptual uncertainty detection:</b> (1) occlusion segmentation and robot allocation by VLM with self-review, 
+              (2) knowledge distillation, and (3) onboard inference using the distilled model.</p>
+            <br>
+          </div>
+        </div>
+      </div>
+      <!--/ Concurrent Work. -->
+
+    </div>
+  </section>
+
+  <section class="hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3"><br>Dataset</h2>
+          <div class="content has-text-justified">
+            <p>
+              Real air-ground data is costly to collect, requiring two robots operating outdoors simultaneously
+              with synchronized sensing and metric localization across platforms. The <span class="framework-name">Co-GLANCE</span>
+              dataset provides more than 4,000 synchronized aerial and ground RGB frames across semi-structured
+              outdoor scenarios, recorded with a DJI Matrice 600 and a Boston Dynamics Spot.
+            </p>
+            <p>
+              Depending on the scenario, available streams include RGB, estimated depth, RTK GPS, and IMU data.
+              Raw ROS 2 bags from both platforms are also released to support evaluation of perception and
+              autonomy stacks beyond static image benchmarks.
+            </p>
+
+            <table class="table is-striped is-hoverable is-fullwidth dataset-table">
+              <thead>
+                <tr>
+                  <th>Scenario</th>
+                  <th>Run</th>
+                  <th>Frame Pairs</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Construction</td>
+                  <td>1</td>
+                  <td>118</td>
+                </tr>
+                <tr>
+                  <td>Construction</td>
+                  <td>2</td>
+                  <td>326</td>
+                </tr>
+                <tr>
+                  <td>Construction</td>
+                  <td>3</td>
+                  <td>280</td>
+                </tr>
+                <tr>
+                  <td>Construction</td>
+                  <td>4</td>
+                  <td>485</td>
+                </tr>
+                <tr>
+                  <td><b>Construction</b></td>
+                  <td><b>Total</b></td>
+                  <td><b>1,209</b></td>
+                </tr>
+                <tr>
+                  <td>Camouflage</td>
+                  <td>1</td>
+                  <td>186</td>
+                </tr>
+                <tr>
+                  <td>Camouflage</td>
+                  <td>2</td>
+                  <td>545</td>
+                </tr>
+                <tr>
+                  <td>Camouflage</td>
+                  <td>3</td>
+                  <td>131</td>
+                </tr>
+                <tr>
+                  <td><b>Camouflage</b></td>
+                  <td><b>Total</b></td>
+                  <td><b>862</b></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>
+              The construction scenario contains four runs and 1,209 annotated frame pairs. The camouflage
+              scenario contains three runs and 862 annotated frame pairs, with two camouflage-wearing individuals
+              moving through visually occluded areas.
+            </p>
+            <br>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+
+  <section class="examples">
+    <h2 class="title is-4">Real-World Experiments</h2>
+    <p class="visual-results-caption">
+      Qualitative examples showing <span class="framework-name">Co-GLANCE</span> compared with
+      baselines across both real-world scenarios.
+    </p>
+    <div class="scroll-gallery">
+      <figure>
+        <img src="./static/images/real_world_scenario_1.png" alt="Scenario 1 visual results">
+      </figure>
+      <figure>
+        <img src="./static/images/real_world_scenario_2.png" alt="Scenario 2 visual results">
+      </figure>
+    </div>
+    <div class="route-gallery">
+      <figure>
+        <img src="./static/images/occlusion_allocation.png"
+          alt="Robot routing occlusion allocation">
+        <figcaption>Robot routing for occlusion allocation</figcaption>
+      </figure>
+      <figure>
+        <img src="./static/images/viewpoint_allocation.png"
+          alt="Robot routing viewpoint allocation">
+        <figcaption>Observation routes for viewpoint allocation</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="hero is-small is-light">
+    <div class="container is-max-desktop" style="max-width: 100em;">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3 has-text-centered">Related Links</h2>
+
+          <div class="columns is-multiline is-centered">
+
+            <!-- Card 1: Code -->
+            <div class="column is-4">
+              <div class="card link-card">
+                <div class="card-content has-text-centered">
+                  <span class="icon is-large">
+                    <i class="fab fa-github fa-2x"></i>
+                  </span>
+                  <h3 class="title is-5">Code</h3>
+                  <a target="_blank" rel="noopener noreferrer" href="https://github.com/co-glance/co-glance.github.io"
+                    class="button is-link is-rounded">View Code</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Demo Notebook -->
+            <div class="column is-4">
+              <div class="card link-card">
+                <div class="card-content has-text-centered">
+                  <span class="icon is-large">
+                    <i class="fas fa-book-open fa-2x"></i>
+                  </span>
+                  <h3 class="title is-5">Demo Notebook</h3>
+                  <a target="_blank" rel="noopener noreferrer"
+                    href="https://huggingface.co/datasets/co-glance/Co-GLANCE/blob/main/dataset_viewer.ipynb"
+                    class="button is-link is-rounded">View Notebook</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Dataset -->
+            <div class="column is-4">
+              <div class="card link-card">
+                <div class="card-content has-text-centered">
+                  <span class="icon is-large">
+                    <i class="fas fa-database fa-2x"></i>
+                  </span>
+                  <h3 class="title is-5">Dataset</h3>
+                  <a target="_blank" rel="noopener noreferrer"
+                    href="https://huggingface.co/datasets/co-glance/Co-GLANCE"
+                    class="button is-link is-rounded">View Dataset</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <div style="position: relative;">
+        <pre><code><span style="color: red;">@inproceedings</span>{<span style="color: purple;">co-glance</span>,
+            title={Co-GLANCE: Uncertainty-Aware Active Perception for Heterogeneous Robot Teaming},
+            author={},
+            year={2026},
+            booktitle={},
+      }</code></pre>
+        <button id="copyBibtex" class="button is-small"
+          style="position: absolute; top: 10px; right: 10px; opacity: 0.7; background-color: rgba(255, 255, 255, 0.7);"
+          onmouseover="this.style.opacity='1'"
+          onmouseout="this.style.opacity='0.7'"
+          onclick="copyBibtexToClipboard()">
+          <span class="icon">
+            <i class="fas fa-copy"></i>
+          </span>
+          <span>Copy</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function copyBibtexToClipboard() {
+      const bibtexText = `@content,
+            title={Co-GLANCE: Uncertainty-Aware Active Perception for Heterogeneous Robot Teaming},
+            author={},
+            year={2026},
+            booktitle={},
+      }`;
+
+      navigator.clipboard.writeText(bibtexText).then(function () {
+        const button = document.getElementById('copyBibtex');
+        const originalHTML = button.innerHTML;
+        const originalStyle = button.getAttribute('style');
+
+        button.innerHTML = '<span class="icon"><i class="fas fa-check"></i></span><span>Copied!</span>';
+        button.style = 'position: absolute; top: 10px; right: 10px; opacity: 1; background-color: #48c774;';
+
+        setTimeout(function () {
+          button.innerHTML = originalHTML;
+          button.setAttribute('style', originalStyle);
+        }, 2000);
+      });
+    }
+  </script>
+
+
+  <footer class="footer">
+    <div class="container">
+      <!--
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+      -->
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content bottom-attr-text">
+            <p style="font-size: 0.85rem;">
+              We express our thanks towards the authors of <a
+                href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> for the template of this website.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
