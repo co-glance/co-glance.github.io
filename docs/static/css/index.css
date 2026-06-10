@@ -447,8 +447,19 @@ body {
 }
 
 @media screen and (max-width: 768px) {
+  body {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
   .hero-body {
-    padding: 2rem 1rem;
+    padding: 2rem 0.75rem;
+  }
+
+  .container,
+  .container.is-max-desktop {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   h1.publication-title {
