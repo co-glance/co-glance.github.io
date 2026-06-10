@@ -446,14 +446,23 @@ body {
   margin-top: 0.5rem;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 900px) {
   body {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    background: #fff;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .hero,
+  .section,
+  .examples {
+    margin-left: 0.85rem;
+    margin-right: 0.85rem;
+    overflow: hidden;
   }
 
   .hero-body {
-    padding: 2rem 0.75rem;
+    padding: 2rem 0.85rem;
   }
 
   .container,
