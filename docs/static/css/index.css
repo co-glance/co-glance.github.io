@@ -447,6 +447,10 @@ body {
 }
 
 @media screen and (max-width: 900px) {
+  :root {
+    --mobile-side-gutter: 2.35rem;
+  }
+
   body {
     background: #fff;
     padding-left: 0;
@@ -456,19 +460,31 @@ body {
   .hero,
   .section,
   .examples {
-    margin-left: 0.85rem;
-    margin-right: 0.85rem;
+    box-sizing: border-box;
+    margin-left: var(--mobile-side-gutter);
+    margin-right: var(--mobile-side-gutter);
     overflow: hidden;
+    position: relative;
+    z-index: 2;
   }
 
   .hero-body {
-    padding: 2rem 0.85rem;
+    padding: 2rem 0.35rem;
   }
 
   .container,
   .container.is-max-desktop {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    box-sizing: border-box;
+    max-width: 100% !important;
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+    width: 100% !important;
+  }
+
+  .columns,
+  .column,
+  .content {
+    max-width: 100%;
   }
 
   h1.publication-title {
@@ -490,19 +506,21 @@ body {
   }
 
   .drone-accent {
-    height: 82px;
-    opacity: 0.38;
-    right: -78px;
-    top: 12vh;
-    width: 104px;
+    height: 70px;
+    opacity: 0.46;
+    right: -64px;
+    top: 16vh;
+    width: 88px;
+    z-index: 1;
   }
 
   .spot-accent {
-    bottom: 5vh;
-    height: 63px;
-    left: -94px;
-    opacity: 0.38;
-    width: 112px;
+    bottom: 8vh;
+    height: 56px;
+    left: -76px;
+    opacity: 0.46;
+    width: 98px;
+    z-index: 1;
   }
 
   .paper-figure,
@@ -525,6 +543,20 @@ body {
 
   .link-card:hover {
     transform: none;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  :root {
+    --mobile-side-gutter: 2rem;
+  }
+
+  h1.publication-title {
+    font-size: 2.05rem !important;
+  }
+
+  h2.publication-title {
+    font-size: 1.25rem !important;
   }
 }
 
